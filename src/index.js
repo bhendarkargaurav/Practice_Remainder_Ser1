@@ -1,7 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const { PORT } = require('./config/serverConfig'); 
+const { PORT } = require('./config/serverConfig');
+
+const { sendBasicEmail } = require('./services/email-services');
 
 const setupAndStartServer = () => {
     const app = express();
@@ -9,8 +11,15 @@ const setupAndStartServer = () => {
     app.use(bodyParser.urlencoded({extended: true}));
 
     app.listen(PORT, ()=> {
-        console.log(`Server Started at port ${PORT}`)
-    })
+        console.log(`Server Started at port ${PORT}`);
+
+        sendBasicEmail(
+            'support@admin.com',
+            'airlineremainderservice24@gmail.com',
+            'This is a testing email',
+            'Hey, how are you, I hope you like this support'
+        );
+    });
 }
 
 setupAndStartServer();
